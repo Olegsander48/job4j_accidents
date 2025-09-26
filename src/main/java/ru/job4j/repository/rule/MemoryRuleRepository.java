@@ -39,9 +39,8 @@ public class MemoryRuleRepository implements RuleRepository {
 
     @Override
     public Set<Rule> findRulesByIds(List<Integer> ids) {
-        return rules.values()
-                .stream()
-                .filter(rule -> ids.contains(rule.getId()))
+        return ids.stream()
+                .map(id -> rules.get(id))
                 .collect(Collectors.toSet());
     }
 
