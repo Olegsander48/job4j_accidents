@@ -1,4 +1,4 @@
-package ru.job4j.repository;
+package ru.job4j.repository.accident;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.models.Accident;
