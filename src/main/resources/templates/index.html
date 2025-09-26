@@ -24,7 +24,7 @@
             <td th:text="${accident.description}"/>
             <td th:text="${accident.address}"/>
             <td><a class="btn btn-dark w-75"
-                   th:href="@{/updateAccident/{id}(id = *{accident.getId()})}">Редактировать заявку</a></td>
+                   th:href="@{|/updateAccident?id=${accident.id}|}">Редактировать заявку</a></td>
         </tr>
         </tbody>
     </table>

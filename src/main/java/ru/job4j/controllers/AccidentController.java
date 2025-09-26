@@ -27,8 +27,8 @@ public class AccidentController {
         return "redirect:/";
     }
 
-    @GetMapping("/updateAccident/{id}")
-    public String getCreationView(@PathVariable int id, Model model) {
+    @GetMapping("/updateAccident")
+    public String getCreationView(@RequestParam int id, Model model) {
         Optional<Accident> accident = accidentService.findById(id);
         if (accident.isEmpty()) {
             model.addAttribute("message", "Accident not found");
