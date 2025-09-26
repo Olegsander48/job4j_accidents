@@ -8,14 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class MemoryAccidentRepository implements AccidentRepository {
     Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
+    AtomicInteger accidentId = new AtomicInteger(1);
 
     @Override
     public boolean save(Accident accident) {
-        return accidents.put(accident.getId(), accident) != null;
+        boolean result = accidents.put(accidentId.get(), accident) != null;
+        accident.setId(accidentId.getAndIncrement());
+        return result;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class MemoryAccidentRepository implements AccidentRepository {
 
     @Override
     public Optional<Accident> findById(int id) {
-        return Optional.of(accidents.get(id));
+        return Optional.ofNullable(accidents.get(id));
     }
 
     @Override

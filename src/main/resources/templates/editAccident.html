@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="~{fragments/header :: header}"></head>
+<body>
+<div class="container">
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Обновить данные
+            </div>
+            <div class="card-body">
+                <form th:action="@{/updateAccident}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:field="${accident.id}"/>
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name" th:field="${accident.name}" required/>
+                        <label for="description">Описание</label>
+                        <input type="text" class="form-control" name="description" id="description" th:field="${accident.description}" required />
+                        <label for="address">Адрес</label>
+                        <input type="text" class="form-control" name="address" id="address" th:field="${accident.address}" required/>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Обновить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
