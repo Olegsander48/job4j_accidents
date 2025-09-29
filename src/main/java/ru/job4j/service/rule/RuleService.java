@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface RuleService {
-    boolean save(Rule rule);
+    Rule save(Rule rule);
 
     void update(Rule rule);
 

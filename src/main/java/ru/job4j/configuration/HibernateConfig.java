@@ -16,7 +16,7 @@ import java.util.Properties;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class HibernateConfig {
-    @Bean(name = "entityManagerFactory")
+    @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory(@Value("${hibernate.dialect}") String dialect,
                                                   @Value("${hibernate.show_sql}") String showSql,
                                                   DataSource dataSource) {
@@ -30,7 +30,7 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
-    @Bean
+    @Bean(name = "hibernateTransactionManager")
     public PlatformTransactionManager transactionManager(LocalSessionFactoryBean sessionFactory) {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory.getObject());

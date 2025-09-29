@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccidentService {
-    boolean save(Accident accident);
+    Accident save(Accident accident);
 
     void update(Accident accident);
 

@@ -11,6 +11,7 @@
             <div class="card-body">
                 <form th:action="@{/updateAccident}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" th:field="${accident.id}"/>
+                    <input type="hidden" name="accident_type_id" th:field="${accident.accidentType.id}"/>
                     <div class="form-group">
                         <label for="name">Имя</label>
                         <input type="text" class="form-control" name="name" id="name" th:field="${accident.name}" required/>

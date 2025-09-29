@@ -16,12 +16,13 @@ public class JdbcAccidentRepository implements AccidentRepository {
     }
 
     @Override
-    public boolean save(Accident accident) {
-        return jdbcTemplate.update("INSERT INTO accidents(name, description, address, accident_type_id) VALUES (?, ?, ?, ?)",
+    public Accident save(Accident accident) {
+        jdbcTemplate.update("INSERT INTO accidents(name, description, address, accident_type_id) VALUES (?, ?, ?, ?)",
                 accident.getName(),
                 accident.getDescription(),
                 accident.getAddress(),
-                accident.getAccidentType().getId()) > 0;
+                accident.getAccidentType().getId());
+        return accident;
     }
 
     @Override

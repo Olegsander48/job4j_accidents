@@ -20,12 +20,12 @@ public class HibernateAccidentRepository implements AccidentRepository {
     }
 
     @Override
-    public boolean save(Accident accident) {
+    public Accident save(Accident accident) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(accident);
             session.getTransaction().commit();
-            return session.contains(accident);
+            return accident;
         }
     }
 

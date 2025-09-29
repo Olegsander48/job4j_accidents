@@ -18,8 +18,8 @@ public class MemoryRuleRepository implements RuleRepository {
     }
 
     @Override
-    public boolean save(Rule rule) {
-        return rules.put(rule.getId(), rule) != null;
+    public Rule save(Rule rule) {
+        return rules.put(rule.getId(), rule);
     }
 
     @Override

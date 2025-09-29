@@ -22,8 +22,8 @@ public class MemoryAccidentTypeRepository implements AccidentTypeRepository {
     }
 
     @Override
-    public boolean save(AccidentType accidentType) {
-        boolean result = accidentTypes.put(accidentTypeId.get(), accidentType) != null;
+    public AccidentType save(AccidentType accidentType) {
+        var result = accidentTypes.put(accidentTypeId.get(), accidentType);
         accidentType.setId(accidentTypeId.getAndIncrement());
         return result;
     }

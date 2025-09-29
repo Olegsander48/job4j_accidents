@@ -2,20 +2,22 @@ package ru.job4j.service.accidenttype;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.models.AccidentType;
-import ru.job4j.repository.accidenttype.AccidentTypeRepository;
+import ru.job4j.repository.accidenttype.JpaAccidentTypeRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MemoryAccidentTypeService implements AccidentTypeService {
-    private final AccidentTypeRepository accidentTypeRepository;
+public class SimpleAccidentTypeService implements AccidentTypeService {
+    private final JpaAccidentTypeRepository accidentTypeRepository;
 
-    public MemoryAccidentTypeService(AccidentTypeRepository accidentTypeRepository) {
+    public SimpleAccidentTypeService(JpaAccidentTypeRepository accidentTypeRepository) {
         this.accidentTypeRepository = accidentTypeRepository;
     }
 
     @Override
-    public boolean save(AccidentType accidentType) {
+    public AccidentType save(AccidentType accidentType) {
         validateAccidentType(accidentType);
         return accidentTypeRepository.save(accidentType);
     }
@@ -23,7 +25,7 @@ public class MemoryAccidentTypeService implements AccidentTypeService {
     @Override
     public void update(AccidentType accidentType) {
         validateAccidentType(accidentType);
-        accidentTypeRepository.update(accidentType);
+        accidentTypeRepository.save(accidentType);
     }
 
     @Override
@@ -36,7 +38,9 @@ public class MemoryAccidentTypeService implements AccidentTypeService {
 
     @Override
     public List<AccidentType> findAll() {
-        return accidentTypeRepository.findAll();
+        List<AccidentType> accidentTypes = new ArrayList<>();
+        accidentTypeRepository.findAll().forEach(accidentTypes::add);
+        return accidentTypes;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class MemoryAccidentTypeService implements AccidentTypeService {
         if (id <= 0) {
             throw new IllegalArgumentException("id must be greater than 0");
         }
-        accidentTypeRepository.delete(id);
+        accidentTypeRepository.delete(findById(id).get());
     }
 
     private void validateAccidentType(AccidentType accidentType) {

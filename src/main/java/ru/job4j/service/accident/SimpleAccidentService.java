@@ -2,21 +2,22 @@ package ru.job4j.service.accident;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.models.Accident;
-import ru.job4j.repository.accident.AccidentRepository;
+import ru.job4j.repository.accident.JpaAccidentRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SimpleAccidentService implements AccidentService {
-    private final AccidentRepository accidentRepository;
+    private final JpaAccidentRepository accidentRepository;
 
-    public SimpleAccidentService(AccidentRepository accidentRepository) {
+    public SimpleAccidentService(JpaAccidentRepository accidentRepository) {
         this.accidentRepository = accidentRepository;
     }
 
     @Override
-    public boolean save(Accident accident) {
+    public Accident save(Accident accident) {
         validateAccident(accident);
         return accidentRepository.save(accident);
     }
@@ -24,7 +25,7 @@ public class SimpleAccidentService implements AccidentService {
     @Override
     public void update(Accident accident) {
         validateAccident(accident);
-        accidentRepository.update(accident);
+        accidentRepository.save(accident);
     }
 
     @Override
@@ -37,7 +38,9 @@ public class SimpleAccidentService implements AccidentService {
 
     @Override
     public List<Accident> findAll() {
-        return accidentRepository.findAll();
+        List<Accident> accidents = new ArrayList<>();
+        accidentRepository.findAll().forEach(accidents::add);
+        return accidents;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class SimpleAccidentService implements AccidentService {
         if (id <= 0) {
             throw new IllegalArgumentException("Accident id must be greater than 0");
         }
-        accidentRepository.delete(id);
+        accidentRepository.delete(findById(id).get());
     }
 
     private void validateAccident(Accident accident) {

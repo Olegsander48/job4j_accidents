@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccidentTypeRepository {
-    boolean save(AccidentType accidentType);
+    AccidentType save(AccidentType accidentType);
 
     void update(AccidentType accidentType);
 

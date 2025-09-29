@@ -16,8 +16,8 @@ public class MemoryAccidentRepository implements AccidentRepository {
     AtomicInteger accidentId = new AtomicInteger(1);
 
     @Override
-    public boolean save(Accident accident) {
-        boolean result = accidents.put(accidentId.get(), accident) != null;
+    public Accident save(Accident accident) {
+        var result = accidents.put(accidentId.get(), accident);
         accident.setId(accidentId.getAndIncrement());
         return result;
     }

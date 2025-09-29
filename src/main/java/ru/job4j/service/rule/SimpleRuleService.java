@@ -2,22 +2,23 @@ package ru.job4j.service.rule;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.models.Rule;
-import ru.job4j.repository.rule.RuleRepository;
+import ru.job4j.repository.rule.JpaRuleRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class MemoryRuleService implements RuleService {
-    private final RuleRepository ruleRepository;
+public class SimpleRuleService implements RuleService {
+    private final JpaRuleRepository ruleRepository;
 
-    public MemoryRuleService(RuleRepository ruleRepository) {
+    public SimpleRuleService(JpaRuleRepository ruleRepository) {
         this.ruleRepository = ruleRepository;
     }
 
     @Override
-    public boolean save(Rule rule) {
+    public Rule save(Rule rule) {
         validateRule(rule);
         return ruleRepository.save(rule);
     }
@@ -25,7 +26,7 @@ public class MemoryRuleService implements RuleService {
     @Override
     public void update(Rule rule) {
         validateRule(rule);
-        ruleRepository.update(rule);
+        ruleRepository.save(rule);
     }
 
     @Override
@@ -38,12 +39,14 @@ public class MemoryRuleService implements RuleService {
 
     @Override
     public List<Rule> findAll() {
-        return ruleRepository.findAll();
+        List<Rule> rules = new ArrayList<>();
+        ruleRepository.findAll().forEach(rules::add);
+        return rules;
     }
 
     @Override
     public Set<Rule> findRulesByIds(List<Integer> ids) {
-        return ruleRepository.findRulesByIds(ids);
+        return ruleRepository.findRulesByIdIn(ids);
     }
 
     @Override
@@ -51,7 +54,7 @@ public class MemoryRuleService implements RuleService {
         if (id <= 0) {
             throw new IllegalArgumentException("Rule id cannot be negative or zero");
         }
-        ruleRepository.delete(id);
+        ruleRepository.delete(findById(id).get());
     }
 
     private void validateRule(Rule rule) {
