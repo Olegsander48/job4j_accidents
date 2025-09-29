@@ -1,6 +1,5 @@
 package ru.job4j.repository.accident;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.job4j.models.Accident;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Primary
 public class JdbcAccidentRepository implements AccidentRepository {
     private final JdbcTemplate jdbcTemplate;
 
