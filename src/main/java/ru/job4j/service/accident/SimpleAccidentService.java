@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MemoryAccidentService implements AccidentService {
+public class SimpleAccidentService implements AccidentService {
     private final AccidentRepository accidentRepository;
 
-    public MemoryAccidentService(AccidentRepository accidentRepository) {
+    public SimpleAccidentService(AccidentRepository accidentRepository) {
         this.accidentRepository = accidentRepository;
     }
 

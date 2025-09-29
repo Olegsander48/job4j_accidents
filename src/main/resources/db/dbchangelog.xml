@@ -9,4 +9,5 @@
     <include file="/scripts/002_ddl_create_accident_type_table.sql" relativeToChangelogFile="true"/>
     <include file="/scripts/003_ddl_add_fk_to_accidents_table.sql" relativeToChangelogFile="true"/>
     <include file="/scripts/004_ddl_create_rules_table.sql" relativeToChangelogFile="true"/>
+    <include file="/scripts/005_dml_insert_values_to_accident_types.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
