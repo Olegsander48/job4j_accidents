@@ -24,7 +24,7 @@ public class LoginController {
             errorMessage = "You have been seccessfully logged out !!";
         }
         model.addAttribute("errorMessage", errorMessage);
-        return "fragments/login";
+        return "login";
     }
 
     @GetMapping("/logout")

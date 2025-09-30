@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,14 +23,9 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        if (!userDetailsManager.userExists("user")) {
-            UserDetails user = User.builder()
-                    .username("user")
-                    .password(encoder.encode("123456"))
-                    .roles("USER")
-                    .build();
-            userDetailsManager.createUser(user);
-        }
+        userDetailsManager.setUsersByUsernameQuery("select username, password, enabled from users where username = ?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT u.username, a.authority FROM authorities AS a, users AS u "
+                + "WHERE u.username = ? and u.authority_id = a.id");
         return userDetailsManager;
     }
 
@@ -44,7 +37,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(customizer -> customizer
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login", "/register").permitAll()
                         .anyRequest().hasAnyRole("ADMIN", "USER"))
                 .formLogin(customizer -> customizer
                         .loginPage("/login")
