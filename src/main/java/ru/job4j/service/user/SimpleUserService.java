@@ -32,6 +32,11 @@ public class SimpleUserService implements UserService {
     }
 
     @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);

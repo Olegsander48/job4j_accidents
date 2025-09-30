@@ -12,6 +12,8 @@ public interface UserService {
 
     Optional<User> findById(int id);
 
+    Optional<User> findByUsername(String username);
+
     List<User> findAll();
 
     void delete(int id);
