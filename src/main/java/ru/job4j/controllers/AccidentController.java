@@ -1,5 +1,6 @@
 package ru.job4j.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,10 @@ public class AccidentController {
     }
 
     @GetMapping("/editAccident")
-    public String getEditView(@RequestParam int id, Model model) {
+    public String getEditView(@RequestParam int id, Model model, HttpServletResponse response) {
         Optional<Accident> accident = accidentService.findById(id);
         if (accident.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             model.addAttribute("message", "Accident not found");
             return "fragments/errors/404";
         }

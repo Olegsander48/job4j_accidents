@@ -15,9 +15,11 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
-                        Model model) {
+                        Model model,
+                        HttpServletResponse response) {
         String errorMessage = null;
         if (error != null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             errorMessage = "Username or password is incorrect !!";
         }
         if (logout != null) {
