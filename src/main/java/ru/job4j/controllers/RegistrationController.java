@@ -1,5 +1,6 @@
 package ru.job4j.controllers;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +25,16 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute("user") User user, Model model) {
-        if (userService.findByUsername(user.getUsername()).isPresent()) {
-            model.addAttribute("errorMessage", "Username or password is incorrect !!");
+        try {
+            user.setEnabled(true);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
+            userService.save(user);
+            return "redirect:/login";
+        } catch (DataIntegrityViolationException exception) {
+            model.addAttribute("errorMessage", "Username or password is incorrect");
             return "register";
         }
-        user.setEnabled(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
-        userService.save(user);
-        return "redirect:/login";
     }
 
     @GetMapping("/register")
