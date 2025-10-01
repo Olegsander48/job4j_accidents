@@ -38,8 +38,8 @@ public class AccidentController {
         return "redirect:/";
     }
 
-    @GetMapping("/updateAccident")
-    public String getCreationView(@RequestParam int id, Model model) {
+    @GetMapping("/editAccident")
+    public String getEditView(@RequestParam int id, Model model) {
         Optional<Accident> accident = accidentService.findById(id);
         if (accident.isEmpty()) {
             model.addAttribute("message", "Accident not found");
@@ -49,7 +49,7 @@ public class AccidentController {
         return "editAccident";
     }
 
-    @PostMapping("/updateAccident")
+    @PostMapping("/editAccident")
     public String updateAccident(@ModelAttribute("accident") Accident accident) {
         accidentService.update(accident);
         return "redirect:/";
