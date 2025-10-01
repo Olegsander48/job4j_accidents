@@ -58,8 +58,8 @@ class AccidentControllerTest {
         this.mockMvc.perform(get("/editAccident").param("id", "1"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(view().name("fragments/errors/404"))
-                .andExpect(model().attribute("message", "Accident not found"));
+                .andExpect(view().name("fragments/errors/4xx"))
+                .andExpect(model().attribute("message", "Element not found"));
     }
 
 }

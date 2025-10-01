@@ -1,6 +1,5 @@
 package ru.job4j.controllers;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,21 +31,17 @@ public class AccidentController {
 
     @PostMapping("/saveAccident")
     public String saveAccident(@ModelAttribute("accident") Accident accident,
-                               @RequestParam("type.id") int id, @RequestParam("rIds") List<Integer> ids) {
-        accident.setAccidentType(accidentTypeService.findById(id).get());
-        accident.setRules(ruleService.findRulesByIds(ids));
+                               @RequestParam("type.id") int typeId,
+                               @RequestParam("rIds") List<Integer> ruleIds) {
+        accident.setAccidentType(accidentTypeService.findById(typeId).get());
+        accident.setRules(ruleService.findRulesByIds(ruleIds));
         accidentService.save(accident);
         return "redirect:/";
     }
 
     @GetMapping("/editAccident")
-    public String getEditView(@RequestParam int id, Model model, HttpServletResponse response) {
+    public String getEditView(@RequestParam int id, Model model) {
         Optional<Accident> accident = accidentService.findById(id);
-        if (accident.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            model.addAttribute("message", "Accident not found");
-            return "fragments/errors/404";
-        }
         model.addAttribute("accident", accident.get());
         return "editAccident";
     }
