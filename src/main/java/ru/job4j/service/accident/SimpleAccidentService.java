@@ -59,7 +59,7 @@ public class SimpleAccidentService implements AccidentService {
             throw new IllegalArgumentException("Accident name cannot be null or empty");
         }
         if (accident.getDescription() == null || accident.getDescription().isBlank()) {
-            throw new IllegalArgumentException("Accident text cannot be null or empty");
+            throw new IllegalArgumentException("Accident description cannot be null or empty");
         }
         if (accident.getAddress() == null || accident.getAddress().isBlank()) {
             throw new IllegalArgumentException("Accident address cannot be null or empty");
